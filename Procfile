@@ -1,1 +1,1 @@
-web: gunicorn listings_main:app
+web: gunicorn listings_main:app_var
