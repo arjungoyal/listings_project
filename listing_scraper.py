@@ -280,7 +280,8 @@ def listings_scrape(city):
         return spaces_list
             #return spaces_df.to_csv(city + '.csv')
         
-    except:
+    except Exception as e:
+        print(e)
         return None
     
 
