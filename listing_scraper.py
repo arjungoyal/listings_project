@@ -206,7 +206,9 @@ def listings_scrape(city):
     #page_position = url_one.index('')
     try:
         page_one = requests.get(url_one)
+        print(page_one)
         page_one_soup = BeautifulSoup(page_one.content, "html.parser")
+        print(page_one_soup)
 
 
         spaces_list = []
