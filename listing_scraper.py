@@ -36,7 +36,9 @@ def name_city_zipcode(tag):
 #Step 3. getting the property type of the listing
 def property_type_getter(tag):
     import re
-    return tag.find('td', string = re.compile('Property Type')).next_sibling.next_sibling.text[2:].split(" ")[0]
+    prop_type = tag.find('td', string = re.compile('Property Type'))
+    print(prop_type)
+    return prop_type.next_sibling.next_sibling.text[2:].split(" ")[0]
 
 
 # In[25]:
@@ -206,9 +208,9 @@ def listings_scrape(city):
     #page_position = url_one.index('')
     try:
         page_one = requests.get(url_one)
-        print(page_one)
+        #print(page_one)
         page_one_soup = BeautifulSoup(page_one.content, "html.parser")
-        print(page_one_soup)
+        #print(page_one_soup)
 
 
         spaces_list = []
