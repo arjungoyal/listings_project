@@ -26,7 +26,7 @@ def name_city_zipcode(tag):
     
     title_string = tag.find('title').text
     title_list = title_string.split(',')
-    #print(title_list)
+    print('title_list is ' + title_list)
     return [title_list[0], title_list[1][1:], title_list[3][1:6]]
 
 
@@ -37,7 +37,7 @@ def name_city_zipcode(tag):
 def property_type_getter(tag):
     import re
     prop_type = tag.find('td', string = re.compile('Property Type'))
-    print(prop_type)
+    print('Property Type is ' + prop_type)
     if prop_type == None:
         return 'Type Not Disclosed'
     else:
@@ -55,10 +55,12 @@ def rentable_building_area_getter(tag):
     if rba == None:
         gla = tag.find('td', string = re.compile('Gross Leasable Area'))
         if gla != None:
+            print('rentable building area is ' + gla)
             return gla.next_sibling.next_sibling.text[2:].split(" ")[0]
         else:
             return 'Not Disclosed'
     else:
+        print('rentable building area is ' + rba)
         return rba.next_sibling.next_sibling.text[2:].split(" ")[0]
 
 
@@ -83,6 +85,7 @@ def num_spaces_getter(tag):
 def service_types_getter(tag):
     import re
     service_type_list = tag.find_all('td', string=re.compile("Service Type"))
+    print('service_type_list is ' + service_type_list)
     return [service_type.next_sibling.next_sibling.text[2:] for service_type in service_type_list]
         
 
@@ -93,7 +96,7 @@ def service_types_getter(tag):
 def spaces_sqft_getter(tag):
     import re
     sqft_available_list = tag.find_all('td', string = re.compile('Space Available'))
-    
+    print('sqft_available_list is ' + sqft_available_list)
     return [sq_ft.next_sibling.next_sibling.text[2:].split(sep= ' ')[0] 
             for sq_ft in sqft_available_list]
 
@@ -107,7 +110,7 @@ def rental_rate_getter(tag):
 
     rates.remove(rates[0])
 
-
+    print('rental_rates are ' + rates)
     return [rate.next_sibling.next_sibling.find('li').text
             for rate in rates]
 
@@ -118,7 +121,9 @@ def rental_rate_getter(tag):
 #extracts the unique address of each listing
 def listing_name_finder(tag):
     import re
-    return tag.find(href = re.compile('www.loopnet.com/Listing')).get_text()
+    listing_name = tag.find(href = re.compile('www.loopnet.com/Listing'))
+    print('listing name is ' + listing_name)
+    return listing_name.get_text()
     
     
 
@@ -129,7 +134,9 @@ def listing_name_finder(tag):
 #extracts the href from each listing.
 def href_getter(tag):
     import re
-    return tag.find(href = re.compile('www.loopnet.com/Listing'))['href']
+    href = tag.find(href = re.compile('www.loopnet.com/Listing'))['href']
+    print('href is ' + href)
+    return href
 
     
 
@@ -137,19 +144,19 @@ def href_getter(tag):
 # In[33]:
 
 
-def num_spaces_list(tag, num_listings):
+#def num_spaces_list(tag, num_listings):
     
-    listing_info = tag.find_all('ul', class_ = 'data-points')
-    if len(listing_info) != num_listings:
-        listing_info = tag.find_all('div', class_ = 'data')
+#    listing_info = tag.find_all('ul', class_ = 'data-points')
+#    if len(listing_info) != num_listings:
+#        listing_info = tag.find_all('div', class_ = 'data')
     
-    print(len(listing_info))
-    num_spaces = []
-    for info in listing_info:
-        start_index = info.get_text().index('(')
-        stop_index = info.get_text().index(')') + 1
-        num_spaces.append(info.get_text()[start_index:stop_index].split(' ')[0][1:])
-    return num_spaces
+#    print(len(listing_info))
+#    num_spaces = []
+#    for info in listing_info:
+#        start_index = info.get_text().index('(')
+#        stop_index = info.get_text().index(')') + 1
+#        num_spaces.append(info.get_text()[start_index:stop_index].split(' ')[0][1:])
+#    return num_spaces
 
 
 # In[34]:
@@ -158,6 +165,7 @@ def num_spaces_list(tag, num_listings):
 #returns the number of pages for that city's listings. Will use this value for range of the outermost for loop
 def get_largest_page_num(tag):
     page_nums = tag.find('ol', class_ = 'paging').get_text()
+    print('page nums is ' + page_nums)
     dots = page_nums.find('...')
     if dots > 0:
         return int(page_nums[dots+3:])
