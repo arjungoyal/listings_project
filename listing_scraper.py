@@ -38,7 +38,10 @@ def property_type_getter(tag):
     import re
     prop_type = tag.find('td', string = re.compile('Property Type'))
     print(prop_type)
-    return prop_type.next_sibling.next_sibling.text[2:].split(" ")[0]
+    if prop_type == None:
+        return 'Type Not Disclosed'
+    else:
+        return prop_type.next_sibling.next_sibling.text[2:].split(" ")[0]
 
 
 # In[25]:
